@@ -66,6 +66,8 @@ project "wood"
 	targetdir ( path.join(_location, "wood", "bin", "%{cfg.buildcfg}") ) -- location of binaries depending of configuration
 	objdir ( path.join(_location, "wood", "obj", "%{cfg.buildcfg}") )    -- location of intermediate files depending of configuration
 	
+	flags { "FatalWarnings" "ExtraWarnings"}
+	
 	postbuildcommands {
 		-- premake5 --file="<my_file> run_tests --tests_directory=<dir> --tests_exe=<exe>"
 		string.format(
