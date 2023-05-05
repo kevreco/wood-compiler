@@ -53,6 +53,7 @@ _location = ".build"; -- location of the generated files (vs, make, etc.)
 workspace "wood"
     configurations { "Debug", "Release" }
 	location(_location)
+	startproject "wood"
 
 project "wood"
     kind "ConsoleApp"
@@ -66,7 +67,12 @@ project "wood"
 	targetdir ( path.join(_location, "wood", "bin", "%{cfg.buildcfg}") ) -- location of binaries depending of configuration
 	objdir ( path.join(_location, "wood", "obj", "%{cfg.buildcfg}") )    -- location of intermediate files depending of configuration
 	
-	flags { "FatalWarnings" "ExtraWarnings"}
+	flags { "FatalWarnings"}
+	warnings "Extra"
+	
+	filter "system:windows"
+		defines { "WIN32"}
+	filter {}
 	
 	postbuildcommands {
 		-- premake5 --file="<my_file> run_tests --tests_directory=<dir> --tests_exe=<exe>"
@@ -88,6 +94,13 @@ project "tester"
 	targetdir ( path.join(_location, "tester", "bin", "%{cfg.buildcfg}") ) -- location of binaries depending of configuration
 	objdir ( path.join(_location, "tester", "obj", "%{cfg.buildcfg}") )    -- location of intermediate files depending of configuration
 
+	flags { "FatalWarnings"}
+	warnings "Extra"
+	
+	filter "system:windows"
+		defines { "WIN32"}
+	filter {}
+	
     filter { "configurations:Debug" }
         defines { "DEBUG" }
         symbols "On"
