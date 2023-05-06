@@ -1,6 +1,7 @@
-
 #include <stdio.h>
 #include <string.h>
+
+#include <wood/compiler.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,6 +29,7 @@ static const struct cmd commands[] = {
 };
 
 int display_help() { help(0, 0, 0); return -1; }
+int display_error(const char* str) { fprintf(stderr, str); return -1; }
 
 int help(const struct cmd* cmd, int argc, char** argv )
 {
@@ -61,13 +63,34 @@ int version(const struct cmd* cmd, int argc, char** argv)
 	return 0;
 }
 
+#define W_MAX_FILENAME 2048 /* arbitrary limit for path, adjust this if needed */
+
+char output_file_name[W_MAX_FILENAME];
+
 int compile(const struct cmd* cmd, int argc, char** argv)
 {
 	(void)cmd;
 	(void)argc;
-	(void)argv;
 
-	fprintf(stderr, "Not implemented yet");
+	const char* filename = *argv;
+	++argv;
+
+	/*  format path for .c output file */
+	{
+		if (strlen(filename) >= W_MAX_FILENAME - 1)
+			return display_error("input file name is too long");
+
+		sprintf_s(output_file_name, W_MAX_FILENAME, "%s.c", filename);
+	}
+
+	struct w_compiler_options options;
+	struct w_compiler c;
+
+	w_compiler_options_init_default(&options);
+	w_compiler_init(&c, options);
+
+	if (!w_compiler_compile(&c, filename, output_file_name))
+		return -1;
 
 	return 0;
 }

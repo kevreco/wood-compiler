@@ -63,7 +63,10 @@ project "wood"
 	dir_files("./src/cli")
 	dir_files("./src/external")
 	dir_files("./src/wood")
-		
+	
+	includedirs { "./src/" }
+	includedirs { "./src/external/re.lib/c/" }
+	
 	targetdir ( path.join(_location, "wood", "bin", "%{cfg.buildcfg}") ) -- location of binaries depending of configuration
 	objdir ( path.join(_location, "wood", "obj", "%{cfg.buildcfg}") )    -- location of intermediate files depending of configuration
 	
@@ -91,6 +94,9 @@ project "tester"
 	dir_files("./src/wood")
 	dir_files("./src/tester")
 
+	includedirs { "./src/" }
+	includedirs { "./src/external/re.lib/c/" }
+	
 	targetdir ( path.join(_location, "tester", "bin", "%{cfg.buildcfg}") ) -- location of binaries depending of configuration
 	objdir ( path.join(_location, "tester", "obj", "%{cfg.buildcfg}") )    -- location of intermediate files depending of configuration
 
