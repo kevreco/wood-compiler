@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include "location.h"
+
 static void report_error_v(const char* fmt, va_list args);
 static void report_warning_v(const char* fmt, va_list args);
 
@@ -35,4 +37,20 @@ static void report_warning_v(const char* fmt, va_list args)
 {
 	/* for now we report warning the same way we report errors */
 	vfprintf(stderr, fmt, args);
+}
+
+void w_report_error_loc(struct w_location loc, const char* fmt, ...)
+{
+	(void)loc;
+	(void)fmt;
+
+	assert(0 && "@TODO");
+}
+
+void w_report_warning_loc(struct w_location loc, const char* fmt, ...)
+{
+	(void)loc;
+	(void)fmt;
+
+	assert(0 && "@TODO");
 }
